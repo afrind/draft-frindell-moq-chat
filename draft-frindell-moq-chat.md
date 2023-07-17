@@ -19,35 +19,34 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+
+title: "MoQ Chat"
+abbrev: "moq-chat"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-frindell-moq-chat-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Applications and Real-Time"
+workgroup: "Media Over QUIC"
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - media over quic
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "Media Over QUIC"
+  type: "Working Group"
+  mail: "moq@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/moq/"
+  github: "afrind/draft-frindell-moq-chat"
+  latest: "https://afrind.github.io/draft-frindell-moq-chat/draft-frindell-moq-chat.html"
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Alan Frindell
+    organization: Meta
+    email: afrind@meta.com
 
 normative:
 
