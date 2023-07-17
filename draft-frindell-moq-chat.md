@@ -118,9 +118,8 @@ ANNOUNCE ERROR if the join failed.
 The participant SHOULD also send a SUBSCRIBE message to moq-chat/id in order to
 get the participant list and subsequent participant updates.  It is RECOMMENDED
 the participant request the catalog starting from the latest Group. If the
-participant wishes to operate in "All-Broadcast, No Receive" Mode (also called
-"Messages?-Only-Mine" or (MOM) Mode), it can omit subscribing to the chat
-catalog.
+participant wishes to operate in "All-Broadcast, No Receive" Mode, it can omit
+subscribing to the chat catalog.
 
 When a moq-chat server receives an ANNOUNCE and sends an ANNOUNCE OK, it MUST
 update the catalog.  It can either publish a new Group with the updated
