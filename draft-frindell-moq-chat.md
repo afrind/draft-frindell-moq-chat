@@ -96,7 +96,8 @@ close the session with an error.
 
 The protocol requires that one entity operate as a chat server.  The function
 of the server is to maintain the list of participants in the chat and publish
-catalog updates.
+catalog updates.  The server can be a standalone server, or can function as a
+client of a generic relay.
 
 ## Chat ID
 
@@ -106,24 +107,50 @@ endpoint is out of the scope of this document.
 
 ## Track Names
 
-The catalog for a given chat is available by subscribing to moq-chat/id.
+The catalog for a given chat is available by subscribing to `Track Namespace
+= moq-chat/<id>, Track Name = /catalog`.
 
-## Joining the Chat
+The chat stream for a participant with username `user` is `Track Namespace =
+moq-chat/<id>/participants/<user>, Track Name = /messages`.
 
-To join the chat a participant sends an ANNOUNCE message to the server with a
-track namespace of moq-chat/id/username, which is also the Full Track Name.  The
-moq-chat serer will reply with an ANNOUNCE OK if joining was successful or
-ANNOUNCE ERROR if the join failed.
+The server also has virtual "control" tracks, with names under `Track
+Namespace = moq-chat/<id>/control`.
 
-The participant SHOULD also send a SUBSCRIBE message to moq-chat/id in order to
-get the participant list and subsequent participant updates.  It is RECOMMENDED
-the participant request the catalog starting from the latest Group. If the
-participant wishes to operate in "All-Broadcast, No Receive" Mode, it can omit
-subscribing to the chat catalog.
+## Control Channel
 
-When a moq-chat server receives an ANNOUNCE and sends an ANNOUNCE OK, it MUST
-update the catalog.  It can either publish a new Group with the updated
-particiant list, a delta encoding against the current Group, or both.
+To send commands to the chat server, a participant sends a SUBSCRIBE to `Track
+Namespace = moq-chat/<id>/control/, Track Name = /<uuid>`, where uuid is a
+random string sufficiently large to be unique within the MoQ Scope.  The
+presencence of the uuid is to bypass any caching relays and ensure the SUBSCRIBE
+reaches the chat server.
+
+The start and end group and object locations MUST all be set to Type=Absolute,
+Value=0.  There are two additional Track Request Parameters defined:
+
+Command (Key=0x12345): An ASCII string either "join" or "leave".
+
+Username (Key=0x54321): The name of the user joining or leaving
+
+The server processes the command, adding or removing the user from the catalog,
+optionally verifying any AUTHORIZATION information requried by the server.  If
+the join or leave is successful, the server sends a SUBSCRIBE_OK immediately
+followed by SUBSCRIBE_FIN, since the request was for 0 objects.  If the command
+failed, the server responds with a SUBSCRIBE_ERROR with an appropriate error
+code and reason phrase.
+
+When a moq-chat server processes a command, it MUST update the catalog track.
+It can either publish a new Group with the updated particiant list, a delta
+encoding against the current Group, or both.
+
+## Joining a Chat
+
+In addition to sending a SUBSCRIBE to the control track to join the chat, a
+participant SHOULD SUBSCRIBE to the chat's catalog to get the participant list
+and subsequent participant updates.  It is RECOMMENDED the participant request
+the catalog starting from the latest Group using Start Group =
+RelativePrevious/0, Start Object = Absolute/0. If the participant wishes to
+operate in "All-Broadcast, No Receive" Mode, it can omit subscribing to the chat
+catalog.
 
 ## Subscribing to Chat Messages
 
@@ -133,7 +160,7 @@ to the track for each active participant.
 Upon receiving a delta update removing a participant, a client SHOULD
 unsubscribe from that track if it had previously subscribed.
 
-Upone receiving a delta update adding a participant, a client should subscribe
+Upone receiving a delta update adding a participant, a client SHOULD subscribe
 to the new track.
 
 ## Chat Messages
@@ -144,13 +171,11 @@ the length of a chat message beyond those imposed on QUIC streams.
 
 ## Leaving the Chat
 
-When a user leaves the chat, it would be nice if they could send a message
-indicating that their track is complete or no longer available, but the protocol
-has no such message (yet).
-
-When a server or relay detects a MOQT session has terminated, it MUST update the
-catalog and remove any participants that had sent ANNOUNCE messages on that
-session.
+When a participant leaves the chat, they SHOULD send a SUBSCRIBE_RST on their
+messages track to any subscribers indicating the final group and object.  The
+participant SHOULD also send leave command.  A particpant might be disconnected
+from the chat server in an ungraceful manner and be unable to send these
+messages.
 
 ## Stream Mapping
 
@@ -161,7 +186,9 @@ or one stream per object.
 ## Session Closure by the Server
 
 If a client detects a MOQT session has been closed by the server, it assumes
-the server has exited or crashed, and does not attempt to reconnect.
+the server has exited or crashed, and does not attempt to reconnect.  If the
+server transmits a Goaway, the client MAY reconnect if a non-empty New Connect
+URI is provided
 
 # Security Considerations
 
