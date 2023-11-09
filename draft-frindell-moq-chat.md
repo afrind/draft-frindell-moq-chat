@@ -113,10 +113,10 @@ The catalog for a given chat is available by subscribing to moq-chat/id.
 To join the chat a participant sends a SUBSCRIBE message to moq-chat/id in order to
 get the participant list and subsequent participant updates.  This SUBSCRIBE requires
 the AUTHORIZATION_INFO to contain the participant's ASCII string username.
-It is RECOMMENDED the participant request the catalog starting from the beginning 
-of the current Group. 
+It is RECOMMENDED the participant request the catalog starting from the beginning
+of the current Group.
 
-The participant also sends an ANNOUNCE message to the server with a track namespace 
+The participant also sends an ANNOUNCE message to the server with a track namespace
 of moq-chat/id/participant/username, which is also the Full Track Name.  The moq-chat
 server will reply with an ANNOUNCE OK if joining was successful or ANNOUNCE ERROR if
 the join failed.
