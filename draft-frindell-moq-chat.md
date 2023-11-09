@@ -110,18 +110,18 @@ The catalog for a given chat is available by subscribing to moq-chat/id.
 
 ## Joining the Chat
 
-To join the chat a participant sends an ANNOUNCE message to the server with a
-track namespace of moq-chat/id/username, which is also the Full Track Name.  The
-moq-chat serer will reply with an ANNOUNCE OK if joining was successful or
-ANNOUNCE ERROR if the join failed.
+To join the chat a participant sends a SUBSCRIBE message to moq-chat/id in order to
+get the participant list and subsequent participant updates.  This SUBSCRIBE requires
+the AUTHORIZATION_INFO to contain the participant's ASCII string username.
+It is RECOMMENDED the participant request the catalog starting from the beginning 
+of the current Group. 
 
-The participant SHOULD also send a SUBSCRIBE message to moq-chat/id in order to
-get the participant list and subsequent participant updates.  It is RECOMMENDED
-the participant request the catalog starting from the latest Group. If the
-participant wishes to operate in "All-Broadcast, No Receive" Mode, it can omit
-subscribing to the chat catalog.
+The participant also sends an ANNOUNCE message to the server with a track namespace 
+of moq-chat/id/participant/username, which is also the Full Track Name.  The moq-chat
+server will reply with an ANNOUNCE OK if joining was successful or ANNOUNCE ERROR if
+the join failed.
 
-When a moq-chat server receives an ANNOUNCE and sends an ANNOUNCE OK, it MUST
+When a moq-chat server receives a SUBSCRIBE and sends an SUBSCRIBE OK, it MUST
 update the catalog.  It can either publish a new Group with the updated
 particiant list, a delta encoding against the current Group, or both.
 
