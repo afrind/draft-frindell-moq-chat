@@ -90,6 +90,9 @@ Every username in the catalog MUST be unique.  If an endpoint receives a catalog
 or delta encoding that would result in the same username more than once, it MUST
 close the session with an error.
 
+Every object in a catalog group MUST be on a single stream, so that updates are
+delivered in order.
+
 # Chat Operation
 
 ## MoQ Chat Server
