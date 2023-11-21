@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                           9 November 2023
-Expires: 12 May 2024
+Intended status: Informational                          21 November 2023
+Expires: 24 May 2024
 
 
                                 MoQ Chat
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2024.
+   This Internet-Draft will expire on 24 May 2024.
 
 Copyright Notice
 
@@ -134,6 +134,9 @@ Table of Contents
    Every username in the catalog MUST be unique.  If an endpoint
    receives a catalog or delta encoding that would result in the same
    username more than once, it MUST close the session with an error.
+
+   Every object in a catalog group MUST be on a single stream, so that
+   updates are delivered in order.
 
 4.  Chat Operation
 
