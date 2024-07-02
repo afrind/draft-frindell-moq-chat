@@ -1,0 +1,117 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-07-02T00:35:23.754580+00:00",
+  "repo": "afrind/draft-frindell-moq-chat",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOJ8iUAc5eeW1p",
+      "title": "Use a virtual control tracks for joining/leaving the chat",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/1",
+      "state": "OPEN",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-02T20:54:59Z",
+      "updatedAt": "2023-11-15T23:55:47Z",
+      "baseRepository": "afrind/draft-frindell-moq-chat",
+      "baseRefName": "main",
+      "baseRefOid": "bd5683e76624510b477ba86891f8880b22f057c0",
+      "headRepository": "afrind/draft-frindell-moq-chat",
+      "headRefName": "control-track",
+      "headRefOid": "826b8da866ef7898e151f764453c148511382959",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Assuming this is an accurate description of your app, please land it!",
+          "createdAt": "2023-11-15T23:55:47Z",
+          "updatedAt": "2023-11-15T23:55:47Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOJ8iUAc5gDWy1",
+      "title": "for catalog, group = stream",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/2",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-21T18:09:09Z",
+      "updatedAt": "2023-11-21T18:15:45Z",
+      "baseRepository": "afrind/draft-frindell-moq-chat",
+      "baseRefName": "main",
+      "baseRefOid": "fd3006e39bf2f01767958146be8ce89188d420f8",
+      "headRepository": "martinduke/draft-frindell-moq-chat",
+      "headRefName": "patch-1",
+      "headRefOid": "f909cccbe9674a5e6d5999e7d320932e41e69305",
+      "closedAt": "2023-11-21T18:15:45Z",
+      "mergedAt": "2023-11-21T18:15:44Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "9870966e29f1247fbe96b3668058e880621513fb"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
