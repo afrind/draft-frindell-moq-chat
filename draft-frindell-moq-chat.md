@@ -113,8 +113,8 @@ Object ID for each chat message starts at 0 and increments by 1.
 
 ## Leaving the Chat
 
-When a user leaves the chat, they MUST NOT send END_OF_TRACK_AND_GROUP, since
-the track may restart if they rejoin.
+When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP, since
+they will start a new track if they rejoin.
 
 If all publishers of a given namespace disconnect from the relay abruptly, the
 relay will send UNANNOUNCE messages matching SUBSCRIBE_NAMESPACE to interested
