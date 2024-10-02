@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                            1 October 2024
-Expires: 4 April 2025
+Intended status: Informational                            2 October 2024
+Expires: 5 April 2025
 
 
                                 MoQ Chat
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 April 2025.
+   This Internet-Draft will expire on 5 April 2025.
 
 Copyright Notice
 
@@ -166,8 +166,8 @@ Table of Contents
 
 3.7.  Leaving the Chat
 
-   When a user leaves the chat, they MUST NOT send
-   END_OF_TRACK_AND_GROUP, since the track may restart if they rejoin.
+   When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP,
+   since they will start a new track if they rejoin.
 
    If all publishers of a given namespace disconnect from the relay
    abruptly, the relay will send UNANNOUNCE messages matching
