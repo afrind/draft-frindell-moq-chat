@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-01T00:46:15.542107+00:00",
+  "timestamp": "2024-10-03T00:41:31.402905+00:00",
   "repo": "afrind/draft-frindell-moq-chat",
   "labels": [
     {
@@ -112,6 +112,126 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOJ8iUAc59RsGE",
+      "title": "Update moq-chat to utiltize draft-06 features",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/3",
+      "state": "OPEN",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-01T15:45:55Z",
+      "updatedAt": "2024-10-02T12:24:58Z",
+      "baseRepository": "afrind/draft-frindell-moq-chat",
+      "baseRefName": "main",
+      "baseRefOid": "9870966e29f1247fbe96b3668058e880621513fb",
+      "headRepository": "afrind/draft-frindell-moq-chat",
+      "headRefName": "draft-06",
+      "headRefOid": "1357e0c7234096d36a349ffeb742885a1339d9f5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ8iUAc6LhhEH",
+          "commit": {
+            "abbreviatedOid": "df38141"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T16:03:13Z",
+          "updatedAt": "2024-10-01T16:03:13Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "curious to hear your thinking on how does search for set of chats ( say chat with alice last week) work (when cached)",
+              "createdAt": "2024-10-01T16:03:13Z",
+              "updatedAt": "2024-10-01T16:03:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6LhhQA",
+          "commit": {
+            "abbreviatedOid": "df38141"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T16:03:24Z",
+          "updatedAt": "2024-10-01T16:03:24Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "like this !!",
+              "createdAt": "2024-10-01T16:03:24Z",
+              "updatedAt": "2024-10-01T16:03:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6LhtMq",
+          "commit": {
+            "abbreviatedOid": "df38141"
+          },
+          "author": "huitema",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "The PR proposes solving the discovery issue by having all test-chat clients connect to the same relay. The relay will broadcast the announces to all the clients that have subscribed to the chat's namespace. That works OK for the purpose of testing the MoQ protocol in the short term.",
+          "createdAt": "2024-10-01T16:26:47Z",
+          "updatedAt": "2024-10-01T16:26:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6Lla3E",
+          "commit": {
+            "abbreviatedOid": "df38141"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T03:24:34Z",
+          "updatedAt": "2024-10-02T03:24:34Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "In this design, track names contain a timestamp of when the chat started.  So you could request all the chat tracks that cover that range, plus the last one that started before.\r\n\r\nChristian rightly pointed out that this protocol should have a timestamp in the object payload also which would help support that use case. \r\n\r\n@suhasHere Do you have an alternate proposal?",
+              "createdAt": "2024-10-02T03:24:34Z",
+              "updatedAt": "2024-10-02T03:24:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6LlbKz",
+          "commit": {
+            "abbreviatedOid": "df38141"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T03:26:40Z",
+          "updatedAt": "2024-10-02T03:27:13Z",
+          "comments": [
+            {
+              "originalPosition": 132,
+              "body": "This can be updated, since upon rejoining they start a new track.",
+              "createdAt": "2024-10-02T03:26:41Z",
+              "updatedAt": "2024-10-02T03:27:13Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
