@@ -85,7 +85,7 @@ track is "chat".
 ## Joining the Chat
 
 To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to the relay
-with a namesapce prefix ("moq-chat", \<id\>) in order to receive all ANNOUNCE
+with a namespace prefix ("moq-chat", \<id\>) in order to receive all ANNOUNCE
 message from each participant in the chat and UNANNOUNCE messages when
 participants leave.
 
