@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                            2 October 2024
-Expires: 5 April 2025
+Intended status: Informational                            7 October 2024
+Expires: 10 April 2025
 
 
                                 MoQ Chat
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 April 2025.
+   This Internet-Draft will expire on 10 April 2025.
 
 Copyright Notice
 
@@ -135,7 +135,7 @@ Table of Contents
 3.4.  Joining the Chat
 
    To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to
-   the relay with a namesapce prefix ("moq-chat", <id>) in order to
+   the relay with a namespace prefix ("moq-chat", <id>) in order to
    receive all ANNOUNCE message from each participant in the chat and
    UNANNOUNCE messages when participants leave.
 
