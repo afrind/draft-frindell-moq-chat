@@ -1029,7 +1029,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Frindell</td>
-<td class="center">Expires 10 April 2025</td>
+<td class="center">Expires 11 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1042,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-frindell-moq-chat-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-07" class="published">7 October 2024</time>
+<time datetime="2024-10-08" class="published">8 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-10">10 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-11">11 April 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1098,7 +1098,7 @@ Transport.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1251,9 +1251,14 @@ track is "chat".<a href="#section-3.3-1" class="pilcrow">¶</a></p>
             the same user to join the chat from multiple devices<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1">timestamp - the timestamp in seconds when the track started.  This allows a
-            stateless client to start publishing without accidentally
-            overwriting a previously sent group and object.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.4.1">timestamp - the timestamp in seconds when the track started, encoded as a
+            string.  This allows a stateless client to start publishing
+            without accidentally overwriting a previously sent group and
+            object.
+            Note: the protocol will still function so long as each chat
+            client selects a monotonically increasing number for this field.
+            Using the common format described here could support future
+            functionality like pulling chat history.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1264,9 +1269,9 @@ track is "chat".<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-joining-the-chat" class="section-name selfRef">Joining the Chat</a>
         </h3>
 <p id="section-3.4-1">To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to the relay
-with a namespace prefix ("moq-chat", &lt;id&gt;) in order to receive all ANNOUNCE
-message from each participant in the chat and UNANNOUNCE messages when
-participants leave.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+with a namespace prefix ("moq-chat", &lt;id&gt;).  MoQ Relays track the current
+state of all announced namespaces and namespace subscriptions, and forward any
+matching ANNOUNCE or UNANNOUNCE messages to interested endpoints.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <p id="section-3.4-2">The participant also sends an ANNOUNCE message for their chat track namespace.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>

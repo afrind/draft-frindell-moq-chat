@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                            7 October 2024
-Expires: 10 April 2025
+Intended status: Informational                            8 October 2024
+Expires: 11 April 2025
 
 
                                 MoQ Chat
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 April 2025.
+   This Internet-Draft will expire on 11 April 2025.
 
 Copyright Notice
 
@@ -128,16 +128,21 @@ Table of Contents
    *  device-id - a unique identifier for each device for the user.
       This allows the same user to join the chat from multiple devices
 
-   *  timestamp - the timestamp in seconds when the track started.  This
-      allows a stateless client to start publishing without accidentally
-      overwriting a previously sent group and object.
+   *  timestamp - the timestamp in seconds when the track started,
+      encoded as a string.  This allows a stateless client to start
+      publishing without accidentally overwriting a previously sent
+      group and object.  Note: the protocol will still function so long
+      as each chat client selects a monotonically increasing number for
+      this field.  Using the common format described here could support
+      future functionality like pulling chat history.
 
 3.4.  Joining the Chat
 
    To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to
-   the relay with a namespace prefix ("moq-chat", <id>) in order to
-   receive all ANNOUNCE message from each participant in the chat and
-   UNANNOUNCE messages when participants leave.
+   the relay with a namespace prefix ("moq-chat", <id>).  MoQ Relays
+   track the current state of all announced namespaces and namespace
+   subscriptions, and forward any matching ANNOUNCE or UNANNOUNCE
+   messages to interested endpoints.
 
    The participant also sends an ANNOUNCE message for their chat track
    namespace.
