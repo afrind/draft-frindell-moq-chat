@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                          21 November 2023
-Expires: 24 May 2024
+Intended status: Informational                            8 October 2024
+Expires: 11 April 2025
 
 
                                 MoQ Chat
@@ -48,11 +48,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 May 2024.
+   This Internet-Draft will expire on 11 April 2025.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -68,20 +68,19 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Catalog Format
-   4.  Chat Operation
-     4.1.  MoQ Chat Server
-     4.2.  Chat ID
-     4.3.  Track Names
-     4.4.  Joining the Chat
-     4.5.  Subscribing to Chat Messages
-     4.6.  Chat Messages
-     4.7.  Leaving the Chat
-     4.8.  Stream Mapping
-     4.9.  Session Closure by the Server
-   5.  Security Considerations
-   6.  IANA Considerations
-   7.  Normative References
+   3.  Chat Operation
+     3.1.  MoQ Relay
+     3.2.  Chat ID
+     3.3.  Track Names
+     3.4.  Joining the Chat
+     3.5.  Subscribing to Chat Messages
+     3.6.  Chat Messages
+     3.7.  Leaving the Chat
+     3.8.  Stream Mapping
+     3.9.  Session Closure by the Server
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Normative References
    Acknowledgments
    Author's Address
 
@@ -102,136 +101,110 @@ Table of Contents
 
    Commonly used terms in this document are described below.
 
-3.  Catalog Format
+3.  Chat Operation
 
-   The moq-chat catalog is used to determine the list of participants in
-   the chat.  The format is a text file with text delta encodings.
+3.1.  MoQ Relay
 
-   Object 0 in any Group is a complete list of the usernames of the
-   participants in the chat at the time the Object was published, one
-   per-line.  The first line of Object 0 is the version of the catalog
-   format specificaiton.  The format described here is moq-chat catalog
-   format version 1.
+   The protocol requires a MoQ relay to act as a chat server.  The relay
+   maintains the set of connected clients that have announced a chat
+   track.
 
-   Object 0 Example:
-
-   version=1
-   alice
-   bob
-   charlie
-
-   Any Object in a Group with sequence number higher than 0 is a delta
-   encoding, with new participants prefaced with a '+' character and
-   participants that have left the chat prefaced with a '-' character.
-   Every delta encoding object MUST be applied for an endpoint to have a
-   current list of participants.
-
-   Delta Encoding Exmaple:
-
-   +daphne
-   -bob
-
-   Every username in the catalog MUST be unique.  If an endpoint
-   receives a catalog or delta encoding that would result in the same
-   username more than once, it MUST close the session with an error.
-
-   Every object in a catalog group MUST be on a single stream, so that
-   updates are delivered in order.
-
-4.  Chat Operation
-
-4.1.  MoQ Chat Server
-
-   The protocol requires that one entity operate as a chat server.  The
-   function of the server is to maintain the list of participants in the
-   chat and publish catalog updates.
-
-4.2.  Chat ID
+3.2.  Chat ID
 
    Every chat has a unique ID.  The ID is a string of arbitrary length
    and uniquely identifies the chat.  The creation of chat IDs and
-   discovery of the server endpoint is out of the scope of this
-   document.
+   discovery of the relay is out of the scope of this document.
 
-4.3.  Track Names
+3.3.  Track Names
 
-   The catalog for a given chat is available by subscribing to moq-chat/
-   id.
+   Each chat participant has a chat track.  The namespace of the track
+   is ("moq-chat", <id>, <user-id>, <device-id>, <timestamp>) and the
+   name track is "chat".
 
-4.4.  Joining the Chat
+   *  id - the ID of the chatroom
 
-   To join the chat a participant sends a SUBSCRIBE message to moq-chat/
-   id in order to get the participant list and subsequent participant
-   updates.  This SUBSCRIBE requires the AUTHORIZATION_INFO to contain
-   the participant's ASCII string username.  It is RECOMMENDED the
-   participant request the catalog starting from the beginning of the
-   current Group.  The moq-chat server will reply with an SUBSCRIBE_OK
-   if joining was successful or SUBSCRIBE_ERROR if the join failed.
+   *  user-id - the user ID
 
-   The participant also sends an ANNOUNCE message to the server with a
-   track namespace of moq-chat/id/participant/username, and an empty
-   Track Name.
+   *  device-id - a unique identifier for each device for the user.
+      This allows the same user to join the chat from multiple devices
 
-   When a moq-chat server receives a SUBSCRIBE and sends an SUBSCRIBE
-   OK, it MUST update the catalog.  It can either publish a new Group
-   with the updated particiant list, a delta encoding against the
-   current Group, or both.
+   *  timestamp - the timestamp in seconds when the track started,
+      encoded as a string.  This allows a stateless client to start
+      publishing without accidentally overwriting a previously sent
+      group and object.  Note: the protocol will still function so long
+      as each chat client selects a monotonically increasing number for
+      this field.  Using the common format described here could support
+      future functionality like pulling chat history.
 
-4.5.  Subscribing to Chat Messages
+3.4.  Joining the Chat
 
-   After receiving the most recent catalog information, a client SHOULD
-   subscribe to the track for each active participant.
+   To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to
+   the relay with a namespace prefix ("moq-chat", <id>).  MoQ Relays
+   track the current state of all announced namespaces and namespace
+   subscriptions, and forward any matching ANNOUNCE or UNANNOUNCE
+   messages to interested endpoints.
 
-   Upon receiving a delta update removing a participant, a client SHOULD
-   unsubscribe from that track if it had previously subscribed.
+   The participant also sends an ANNOUNCE message for their chat track
+   namespace.
 
-   Upone receiving a delta update adding a participant, a client should
-   subscribe to the new track.
+3.5.  Subscribing to Chat Messages
 
-4.6.  Chat Messages
+   When receiving an ANNOUNCE that matches the chat prefix, the client
+   extracts the client's user-id, device-id and timestamp from the
+   third, fourth and fifth tuple elements, respectively.  The client
+   SHOULD subscribe to the latest timestamp track for each (user-id,
+   device-id) pair.
+
+   Upon receiving an UNANNOUNCE, a client SHOULD UNSUBSCRIBE from that
+   matching track if it had previously subscribed.
+
+3.6.  Chat Messages
 
    Each chat message is sent in a new Group and new Object.  The format
-   of a chat chat message for version 1 catalogs is UTF-8 Encoded text.
-   There is no limit to the length of a chat message beyond those
-   imposed on QUIC streams.
+   of a chat chat message this draft is UTF-8 Encoded text.  There is no
+   limit to the length of a chat message beyond those imposed on QUIC
+   streams.  Chat clients MUST send an END_OF_GROUP message for each
+   Group.
 
-4.7.  Leaving the Chat
+   The starting Group ID for each track starts at 0 and increments by 1.
+   The Object ID for each chat message starts at 0 and increments by 1.
 
-   When a user leaves the chat, it would be nice if they could send a
-   message indicating that their track is complete or no longer
-   available, but the protocol has no such message (yet).
+3.7.  Leaving the Chat
 
-   When a server or relay detects a MOQT session has terminated, it MUST
-   update the catalog and remove any participants that had sent ANNOUNCE
-   messages on that session.
+   When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP,
+   since they will start a new track if they rejoin.
 
-4.8.  Stream Mapping
+   If all publishers of a given namespace disconnect from the relay
+   abruptly, the relay will send UNANNOUNCE messages matching
+   SUBSCRIBE_NAMESPACE to interested clients.
 
-   There is no prescription for how to map catalog or chat messages onto
-   QUIC streams.  Endpoints can choose to use one stream per track, one
-   stream per group or one stream per object.
+3.8.  Stream Mapping
 
-4.9.  Session Closure by the Server
+   The RECOMMENDED forwarding preference for the chat track is Subgroup,
+   with all subgroup IDs set to 0, though clients MAY use other
+   forwarding preferences at their discretion.
 
-   If a client detects a MOQT session has been closed by the server, it
-   assumes the server has exited or crashed, and does not attempt to
+3.9.  Session Closure by the Server
+
+   If a client detects a MOQT session has been closed by the relay, it
+   assumes the relay has exited or crashed, and does not attempt to
    reconnect.
 
-5.  Security Considerations
+4.  Security Considerations
 
    TODO Security
 
-6.  IANA Considerations
+5.  IANA Considerations
 
    This document has no IANA actions.
 
-7.  Normative References
+6.  Normative References
 
-   [MOQT]     Curley, L., Pugin, K., Nandakumar, S., and V. Vasiliev,
-              "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-01, 23 October 2023,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-01>.
+   [MOQT]     Curley, L., Pugin, K., Nandakumar, S., Vasiliev, V., and
+              I. Swett, "Media over QUIC Transport", Work in Progress,
+              Internet-Draft, draft-ietf-moq-transport-06, 19 September
+              2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              moq-transport-06>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
