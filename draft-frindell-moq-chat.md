@@ -55,115 +55,86 @@ receive messages published by others.
 Commonly used terms in this document are described below.
 
 
-# Catalog Format
-
-The moq-chat catalog is used to determine the list of participants in the chat.
-The format is a text file with text delta encodings.
-
-Object 0 in any Group is a complete list of the usernames of the participants in
-the chat at the time the Object was published, one per-line.  The first line of
-Object 0 is the version of the catalog format specificaiton. The format
-described here is moq-chat catalog format version 1.
-
-Object 0 Example:
-
-~~~
-version=1
-alice
-bob
-charlie
-~~~
-
-Any Object in a Group with sequence number higher than 0 is a delta encoding,
-with new participants prefaced with a '+' character and participants that have
-left the chat prefaced with a '-' character.  Every delta encoding object MUST
-be applied for an endpoint to have a current list of participants.
-
-Delta Encoding Exmaple:
-
-~~~
-+daphne
--bob
-~~~
-
-Every username in the catalog MUST be unique.  If an endpoint receives a catalog
-or delta encoding that would result in the same username more than once, it MUST
-close the session with an error.
-
-Every object in a catalog group MUST be on a single stream, so that updates are
-delivered in order.
-
 # Chat Operation
 
-## MoQ Chat Server
+## MoQ Relay
 
-The protocol requires that one entity operate as a chat server.  The function
-of the server is to maintain the list of participants in the chat and publish
-catalog updates.
+The protocol requires a MoQ relay to act as a chat server.  The relay maintains
+the set of connected clients that have announced a chat track.
 
 ## Chat ID
 
 Every chat has a unique ID.  The ID is a string of arbitrary length and uniquely
-identifies the chat.  The creation of chat IDs and discovery of the server
-endpoint is out of the scope of this document.
+identifies the chat.  The creation of chat IDs and discovery of the relay is
+out of the scope of this document.
 
 ## Track Names
 
-The catalog for a given chat is available by subscribing to moq-chat/id.
+Each chat participant has a chat track.  The namespace of the track is
+("moq-chat", \<id\>, \<user-id\>, \<device-id\>, \<timestamp\>) and the name
+track is "chat".
+
+* id - the ID of the chatroom
+* user-id - the user ID
+* device-id - a unique identifier for each device for the user.  This allows
+              the same user to join the chat from multiple devices
+* timestamp - the timestamp in seconds when the track started, encoded as a
+              string.  This allows a stateless client to start publishing
+              without accidentally overwriting a previously sent group and
+              object.
+              Note: the protocol will still function so long as each chat
+              client selects a monotonically increasing number for this field.
+              Using the common format described here could support future
+              functionality like pulling chat history.
 
 ## Joining the Chat
 
-To join the chat a participant sends a SUBSCRIBE message to moq-chat/id in order
-to get the participant list and subsequent participant updates.  This SUBSCRIBE
-requires the AUTHORIZATION_INFO to contain the participant's ASCII string
-username.  It is RECOMMENDED the participant request the catalog starting from
-the beginning of the current Group. The moq-chat server will reply with an
-SUBSCRIBE_OK if joining was successful or SUBSCRIBE_ERROR if the join failed.
+To join the chat a participant sends a SUBSCRIBE_NAMESPACE message to the relay
+with a namespace prefix ("moq-chat", \<id\>).  MoQ Relays track the current
+state of all announced namespaces and namespace subscriptions, and forward any
+matching ANNOUNCE or UNANNOUNCE messages to interested endpoints.
 
-The participant also sends an ANNOUNCE message to the server with a track
-namespace of moq-chat/id/participant/username, and an empty Track Name.
-
-When a moq-chat server receives a SUBSCRIBE and sends an SUBSCRIBE OK, it MUST
-update the catalog.  It can either publish a new Group with the updated
-particiant list, a delta encoding against the current Group, or both.
+The participant also sends an ANNOUNCE message for their chat track namespace.
 
 ## Subscribing to Chat Messages
 
-After receiving the most recent catalog information, a client SHOULD subscribe
-to the track for each active participant.
+When receiving an ANNOUNCE that matches the chat prefix, the client extracts the
+client's user-id, device-id and timestamp from the third, fourth and fifth tuple
+elements, respectively.  The client SHOULD subscribe to the latest timestamp
+track for each (user-id, device-id) pair.
 
-Upon receiving a delta update removing a participant, a client SHOULD
-unsubscribe from that track if it had previously subscribed.
-
-Upone receiving a delta update adding a participant, a client should subscribe
-to the new track.
+Upon receiving an UNANNOUNCE, a client SHOULD UNSUBSCRIBE from that
+matching track if it had previously subscribed.
 
 ## Chat Messages
 
 Each chat message is sent in a new Group and new Object.  The format of a chat
-chat message for version 1 catalogs is UTF-8 Encoded text.  There is no limit to
-the length of a chat message beyond those imposed on QUIC streams.
+chat message this draft is UTF-8 Encoded text.  There is no limit to
+the length of a chat message beyond those imposed on QUIC streams.  Chat clients
+MUST send an END_OF_GROUP message for each Group.
+
+The starting Group ID for each track starts at 0 and increments by 1.  The
+Object ID for each chat message starts at 0 and increments by 1.
 
 ## Leaving the Chat
 
-When a user leaves the chat, it would be nice if they could send a message
-indicating that their track is complete or no longer available, but the protocol
-has no such message (yet).
+When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP, since
+they will start a new track if they rejoin.
 
-When a server or relay detects a MOQT session has terminated, it MUST update the
-catalog and remove any participants that had sent ANNOUNCE messages on that
-session.
+If all publishers of a given namespace disconnect from the relay abruptly, the
+relay will send UNANNOUNCE messages matching SUBSCRIBE_NAMESPACE to interested
+clients.
 
 ## Stream Mapping
 
-There is no prescription for how to map catalog or chat messages onto QUIC
-streams.  Endpoints can choose to use one stream per track, one stream per group
-or one stream per object.
+The RECOMMENDED forwarding preference for the chat track is Subgroup, with all
+subgroup IDs set to 0, though clients MAY use other forwarding preferences at
+their discretion.
 
 ## Session Closure by the Server
 
-If a client detects a MOQT session has been closed by the server, it assumes
-the server has exited or crashed, and does not attempt to reconnect.
+If a client detects a MOQT session has been closed by the relay, it assumes
+the relay has exited or crashed, and does not attempt to reconnect.
 
 # Security Considerations
 
