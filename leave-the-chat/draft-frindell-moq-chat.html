@@ -1309,7 +1309,7 @@ Object ID for each chat message starts at 0 and increments by 1.<a href="#sectio
 <p id="section-3.7-1">When a user leaves the chat, they <span class="bcp14">SHOULD</span> send an UNANNOUNCE message for their
 namespace. They also <span class="bcp14">SHOULD</span> publish an object with status
 END_OF_TRACK_AND_GROUP on their chat track, since they will start a new track if
-they rejoin.  Finally, the <span class="bcp14">SHOULD</span> send an UNSUBSCRIBE message for any
+they rejoin.  Finally, they <span class="bcp14">SHOULD</span> send an UNSUBSCRIBE message for any
 tracks they subscribed to before closing their Transport Session.<a href="#section-3.7-1" class="pilcrow">¶</a></p>
 <p id="section-3.7-2">If all publishers of a given namespace disconnect from the relay abruptly, the
 relay will send UNANNOUNCE messages matching SUBSCRIBE_NAMESPACE to interested
