@@ -118,12 +118,15 @@ Object ID for each chat message starts at 0 and increments by 1.
 
 ## Leaving the Chat
 
-When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP, since
-they will start a new track if they rejoin.
+When a user leaves the chat, they SHOULD send an UNANNOUNCE message for their
+namespace. They also SHOULD publish an object with status
+END_OF_TRACK_AND_GROUP on their chat track, since they will start a new track if
+they rejoin.  Finally, the SHOULD send an UNSUBSCRIBE message for any
+tracks they subscribed to before closing their Transport Session.
 
 If all publishers of a given namespace disconnect from the relay abruptly, the
 relay will send UNANNOUNCE messages matching SUBSCRIBE_NAMESPACE to interested
-clients.
+endpoints.
 
 ## Stream Mapping
 
