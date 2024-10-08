@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-06T00:45:11.806214+00:00",
+  "timestamp": "2024-10-08T00:41:18.760951+00:00",
   "repo": "afrind/draft-frindell-moq-chat",
   "labels": [
     {
@@ -125,13 +125,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-10-01T15:45:55Z",
-      "updatedAt": "2024-10-02T12:24:58Z",
+      "updatedAt": "2024-10-07T22:22:30Z",
       "baseRepository": "afrind/draft-frindell-moq-chat",
       "baseRefName": "main",
       "baseRefOid": "9870966e29f1247fbe96b3668058e880621513fb",
       "headRepository": "afrind/draft-frindell-moq-chat",
       "headRefName": "draft-06",
-      "headRefOid": "1357e0c7234096d36a349ffeb742885a1339d9f5",
+      "headRefOid": "06ae5ff5802f1c392942f1e7c00f348db15f582c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -228,6 +228,82 @@
               "body": "This can be updated, since upon rejoining they start a new track.",
               "createdAt": "2024-10-02T03:26:41Z",
               "updatedAt": "2024-10-02T03:27:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MPagJ",
+          "commit": {
+            "abbreviatedOid": "1357e0c"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T20:14:33Z",
+          "updatedAt": "2024-10-07T20:31:10Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "It's a useful improvement to make the relay/server dumber.",
+              "createdAt": "2024-10-07T20:14:33Z",
+              "updatedAt": "2024-10-07T20:31:10Z"
+            },
+            {
+              "originalPosition": 73,
+              "body": "Are there any restrictions besides that it monotonically increase? Can one publisher start at 1970 and the other at 2023? What if one uses seconds and another milliseconds.\r\n\r\nI  imagine that if the units are too big you'll have collisions, but aside from that I think publishers can do whatever they want?",
+              "createdAt": "2024-10-07T20:17:20Z",
+              "updatedAt": "2024-10-07T20:31:10Z"
+            },
+            {
+              "originalPosition": 88,
+              "body": "```suggestion\r\nwith a namespace prefix (\"moq-chat\", \\<id\\>) in order to receive all ANNOUNCE\r\n```",
+              "createdAt": "2024-10-07T20:18:05Z",
+              "updatedAt": "2024-10-07T20:31:10Z"
+            },
+            {
+              "originalPosition": 90,
+              "body": "Not sure if this an MOQT question or a chat question, but does the relay forward SUBSCRIBE_NAMESPACE to everyone that has ANNOUNCEd something within the namespace, or does the relay keep track of ANNOUNCE so it can send ANNOUNCE in response to later SUBSCRIBE_NAMESPACE? What state does the relay keep?\r\n\r\nMoQT refers to the \"publisher\" as the responder, which can include the relay. So I guess the relay is tracking all the ANNOUNCEs it's seen, and maybe has to prune them when the session goes away?",
+              "createdAt": "2024-10-07T20:20:31Z",
+              "updatedAt": "2024-10-07T20:31:10Z"
+            },
+            {
+              "originalPosition": 121,
+              "body": "but not END_OF_SUBGROUP?\r\n\r\n(this works for me, just want to clarify)",
+              "createdAt": "2024-10-07T20:30:09Z",
+              "updatedAt": "2024-10-07T20:31:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MQF2b",
+          "commit": {
+            "abbreviatedOid": "1357e0c"
+          },
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "Thanks for the feedback.  Should I normalize the timestamp in the track name?",
+          "createdAt": "2024-10-07T22:15:24Z",
+          "updatedAt": "2024-10-07T22:22:11Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "I didn't put any restrictions here yet since there's no purpose for them yet.  I could say it needs to be seconds since 1970 or something, which would facilitate loading chat history without a catalog or timeline track.\r\n\r\nDo you want me to make it restrictive?",
+              "createdAt": "2024-10-07T22:15:24Z",
+              "updatedAt": "2024-10-07T22:22:11Z"
+            },
+            {
+              "originalPosition": 90,
+              "body": "draft-06 doesn't specify if SUBSCRIBE_NAMESPACE is forwarded through a relay.  The use case would be relay-to-relay.\r\n\r\nA relay already needs to track a mapping from announcements to the sessions that announced them.  It uses this table to match incoming subscribes to the correct session(s).\r\n\r\nTo implement SUBSCRIBE_NAMESPACE in moxygen I did have to create a kind of tree-structure organized by namespace tuple, with a list of subscribed sessions at each level, and a session that has announced that namespace, if any.  I suppose when I support > 1 announcer per namespace I need that to be a list.\r\n\r\nAnd when a session disappears you need to remove old announcements, and subscribed namespaces (and subscriptions).",
+              "createdAt": "2024-10-07T22:20:40Z",
+              "updatedAt": "2024-10-07T22:22:11Z"
+            },
+            {
+              "originalPosition": 121,
+              "body": "EOG implies EOSG",
+              "createdAt": "2024-10-07T22:21:38Z",
+              "updatedAt": "2024-10-07T22:22:11Z"
             }
           ]
         }
