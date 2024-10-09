@@ -4,8 +4,8 @@
 
 Media Over QUIC                                              A. Frindell
 Internet-Draft                                                      Meta
-Intended status: Informational                            8 October 2024
-Expires: 11 April 2025
+Intended status: Informational                            9 October 2024
+Expires: 12 April 2025
 
 
                                 MoQ Chat
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 April 2025.
+   This Internet-Draft will expire on 12 April 2025.
 
 Copyright Notice
 
@@ -171,12 +171,16 @@ Table of Contents
 
 3.7.  Leaving the Chat
 
-   When a user leaves the chat, they SHOULD send END_OF_TRACK_AND_GROUP,
-   since they will start a new track if they rejoin.
+   When a user leaves the chat, they SHOULD send an UNANNOUNCE message
+   for their namespace.  They also SHOULD publish an object with status
+   END_OF_TRACK_AND_GROUP on their chat track, since they will start a
+   new track if they rejoin.  Finally, they SHOULD send an UNSUBSCRIBE
+   message for any tracks they subscribed to before closing their
+   Transport Session.
 
    If all publishers of a given namespace disconnect from the relay
    abruptly, the relay will send UNANNOUNCE messages matching
-   SUBSCRIBE_NAMESPACE to interested clients.
+   SUBSCRIBE_NAMESPACE to interested endpoints.
 
 3.8.  Stream Mapping
 
