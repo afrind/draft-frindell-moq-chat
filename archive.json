@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T00:41:18.760951+00:00",
+  "timestamp": "2024-10-10T00:41:15.483147+00:00",
   "repo": "afrind/draft-frindell-moq-chat",
   "labels": [
     {
@@ -56,21 +56,21 @@
       "id": "PR_kwDOJ8iUAc5eeW1p",
       "title": "Use a virtual control tracks for joining/leaving the chat",
       "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "afrind",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-11-02T20:54:59Z",
-      "updatedAt": "2023-11-15T23:55:47Z",
+      "updatedAt": "2024-10-08T21:05:37Z",
       "baseRepository": "afrind/draft-frindell-moq-chat",
       "baseRefName": "main",
       "baseRefOid": "bd5683e76624510b477ba86891f8880b22f057c0",
       "headRepository": "afrind/draft-frindell-moq-chat",
       "headRefName": "control-track",
       "headRefOid": "826b8da866ef7898e151f764453c148511382959",
-      "closedAt": null,
+      "closedAt": "2024-10-08T21:05:37Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -81,6 +81,13 @@
           "body": "Assuming this is an accurate description of your app, please land it!",
           "createdAt": "2023-11-15T23:55:47Z",
           "updatedAt": "2023-11-15T23:55:47Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "OWNER",
+          "body": "Overtaken by events",
+          "createdAt": "2024-10-08T21:05:37Z",
+          "updatedAt": "2024-10-08T21:05:37Z"
         }
       ],
       "reviews": []
@@ -118,24 +125,26 @@
       "id": "PR_kwDOJ8iUAc59RsGE",
       "title": "Update moq-chat to utiltize draft-06 features",
       "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "afrind",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-10-01T15:45:55Z",
-      "updatedAt": "2024-10-07T22:22:30Z",
+      "updatedAt": "2024-10-08T20:02:31Z",
       "baseRepository": "afrind/draft-frindell-moq-chat",
       "baseRefName": "main",
       "baseRefOid": "9870966e29f1247fbe96b3668058e880621513fb",
       "headRepository": "afrind/draft-frindell-moq-chat",
       "headRefName": "draft-06",
-      "headRefOid": "06ae5ff5802f1c392942f1e7c00f348db15f582c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "c0b5df971f445199f4e8b0dcc552131a83f1546a",
+      "closedAt": "2024-10-08T20:02:31Z",
+      "mergedAt": "2024-10-08T20:02:31Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "e76eb7d2a6d653401d7bc54383617a8d58431dae"
+      },
       "comments": [],
       "reviews": [
         {
@@ -306,6 +315,128 @@
               "updatedAt": "2024-10-07T22:22:11Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MZC-B",
+          "commit": {
+            "abbreviatedOid": "1357e0c"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T19:38:12Z",
+          "updatedAt": "2024-10-08T19:38:12Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "No; I just think the spec should be explicit about it.",
+              "createdAt": "2024-10-08T19:38:12Z",
+              "updatedAt": "2024-10-08T19:38:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MZDTv",
+          "commit": {
+            "abbreviatedOid": "1357e0c"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T19:38:54Z",
+          "updatedAt": "2024-10-08T19:38:54Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "OK. More text in the doc is always helpful, even if it's non-normative.",
+              "createdAt": "2024-10-08T19:38:54Z",
+              "updatedAt": "2024-10-08T19:38:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MZDeZ",
+          "commit": {
+            "abbreviatedOid": "1357e0c"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T19:39:17Z",
+          "updatedAt": "2024-10-08T19:39:18Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "Agreed. ",
+              "createdAt": "2024-10-08T19:39:18Z",
+              "updatedAt": "2024-10-08T19:39:18Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOJ8iUAc59_7mG",
+      "title": "More guidance about how to leave the chat",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/pull/4",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-08T21:06:15Z",
+      "updatedAt": "2024-10-09T18:49:01Z",
+      "baseRepository": "afrind/draft-frindell-moq-chat",
+      "baseRefName": "main",
+      "baseRefOid": "e76eb7d2a6d653401d7bc54383617a8d58431dae",
+      "headRepository": "afrind/draft-frindell-moq-chat",
+      "headRefName": "leave-the-chat",
+      "headRefOid": "fa374c39bc650f17948e622a801dc7bd3316cc75",
+      "closedAt": "2024-10-09T18:49:01Z",
+      "mergedAt": "2024-10-09T18:49:01Z",
+      "mergedBy": "afrind",
+      "mergeCommit": {
+        "oid": "0d61cc2364a9b84a46523c39fb970bb296bba9d5"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ8iUAc6MZrdA",
+          "commit": {
+            "abbreviatedOid": "a6a562a"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-08T21:09:19Z",
+          "updatedAt": "2024-10-08T21:09:20Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nthey rejoin.  Finally, they SHOULD send an UNSUBSCRIBE message for any\r\n```",
+              "createdAt": "2024-10-08T21:09:19Z",
+              "updatedAt": "2024-10-08T21:09:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ8iUAc6MZruw",
+          "commit": {
+            "abbreviatedOid": "a6a562a"
+          },
+          "author": "martinduke",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-08T21:10:05Z",
+          "updatedAt": "2024-10-08T21:10:05Z",
+          "comments": []
         }
       ]
     }
