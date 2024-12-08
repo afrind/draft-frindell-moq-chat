@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-05T00:46:24.315246+00:00",
+  "timestamp": "2024-12-08T00:52:10.735073+00:00",
   "repo": "afrind/draft-frindell-moq-chat",
   "labels": [
     {
@@ -49,7 +49,40 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 5,
+      "id": "I_kwDOJ8iUAc6iXnak",
+      "title": "The server PATH went away",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/issues/5",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft used to say that the Webtransport PATH (or Raw QUIC path parameter) was /moq-chat. That's gone, but I think it needs to have something.",
+      "createdAt": "2024-12-06T23:04:56Z",
+      "updatedAt": "2024-12-06T23:04:56Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOJ8iUAc6iXrOB",
+      "title": "Authorization Requirements",
+      "url": "https://github.com/afrind/draft-frindell-moq-chat/issues/6",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Apparently the moxygen code expects the Authorization SUBSCRIBE parameter, for SUBSCRIBE and SUBSCRIBE_DONE.\r\n\r\nThe spec used to expect the username, in plaintext, in this parameter, but there's nothing about it anymore.",
+      "createdAt": "2024-12-06T23:20:05Z",
+      "updatedAt": "2024-12-06T23:20:05Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
