@@ -66,7 +66,8 @@ the set of connected clients that have announced a chat track.
 
 Every chat has a unique ID.  The ID is a string of arbitrary length and uniquely
 identifies the chat.  The creation of chat IDs and discovery of the relay is
-out of the scope of this document.
+out of the scope of this document. A ID of "_testing" is reserved for
+experimental/testing purposes and MUST NOT be used in any realtime deployments.
 
 ## Track Names
 
